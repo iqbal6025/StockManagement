@@ -7,7 +7,7 @@ spring:
     name: InventoryService
   datasource:
 #    url: jdbc:postgresql://localhost:5432/inventory9?CreateDatabaseIfNotExist=true
-    url: postgres://uzonculekybrqc:e95856dcc9330ed1ed23fad4be1464e4cfd4abda8198461c68a9c8207126a6f5@ec2-54-74-95-84.eu-west-1.compute.amazonaws.com:5432/d9af3jns9hd465
+    url: jdbc:postgres://ec2-54-74-95-84.eu-west-1.compute.amazonaws.com:5432/d9af3jns9hd465
 #    username: postgres
     username: uzonculekybrqc
 #    password: admin
