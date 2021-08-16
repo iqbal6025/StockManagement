@@ -1,0 +1,37 @@
+server:
+  port: 8093
+  servlet:
+    context-path: /
+spring:
+  application:
+    name: InventoryService
+  datasource:
+    url: jdbc:postgresql://localhost:5432/inventory9?CreateDatabaseIfNotExist=true
+    username: postgres
+    password: admin
+    initialization-mode: always
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
+        namingStrategy: org.hibernate.cfg.PhysicalNamingStrategy
+  cloud:
+    discovery:
+      enabled: false
+  freemarker:
+    template-loader-path: classpath:/templates
+    suffix: .ftl    
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    hostname: localhost
+logging:
+  level:
+    '[com.ros.inventory]': DEBUG
