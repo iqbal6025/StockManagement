@@ -212,7 +212,7 @@ public class StockServiceImpl implements stockService {
 		
 		// set start and close date
 		LocalDate closing_dat = stock_close_date != null ? stock_close_date : LocalDate.now();
-		LocalDate start_date = stock_start_date != null ? stock_start_date : session_start;
+		LocalDate start_date = stock_start_date != null ? stock_start_date : LocalDate.of(2021, 8, 15);
 		
 	
 		
