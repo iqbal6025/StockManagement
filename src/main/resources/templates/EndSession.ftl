@@ -46,11 +46,11 @@
 	 
 	 <#import "nav.ftl" as bk>
 	<@bk.back/>
-	<h4 class="date">(${Day?cap_first} ${Date}.${month}.${year}) To (${endDate})</h4>
+	<h4 class="date">(${Day?cap_first!" "} ${Date!" "}.${month!""}.${year!" "}) To (${endDate})</h4>
 	
 	
    <div class="container">
-   <form action="/EndSession" name="close_stock_values" method="POST">
+   <form action="/EndSession"  method="POST">
 	<table class="table">
 		<thead class="table-dark">
 			<th>PRODUCT CODE</th>

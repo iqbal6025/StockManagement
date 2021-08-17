@@ -44,6 +44,12 @@
      margin-top:10px;
      margin-right:30px;
   }
+    #add{
+    position:relative;
+    bottom:12px;
+    width:70px;
+    height:40px;
+  }
     </style>
   </head>
   <body>
@@ -63,8 +69,8 @@
         <@e.buttons/>
 
 
-
-   <div class="col-11">
+   <div class="row">
+   <div class="col-9">
    <table class="table table-striped table-hover">
      <tr><th>PURCHASE DATE</th>
          <th>PURCHASE STATUS</th>
@@ -82,6 +88,10 @@
      </tr>
      </#list>
     </table>
+    </div>
+    <div class="col-2">
+      <a href="/addpurchase"><button id="add" class="btn btn-dark">ADD</button></a>
+    </div>
     </div>
     </div>
     
