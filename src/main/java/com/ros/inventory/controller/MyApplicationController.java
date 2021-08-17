@@ -24,7 +24,11 @@ import com.ros.inventory.Exception.InventoryException;
 import com.ros.inventory.controller.dto.ClosingValueDto;
 import com.ros.inventory.controller.dto.Summary;
 import com.ros.inventory.controller.dto.wastageDto;
+import com.ros.inventory.entities.PurchaseOrder;
+import com.ros.inventory.entities.Supplier;
+import com.ros.inventory.entities.SupplierBasicInfo;
 import com.ros.inventory.service.IClosingValueService;
+import com.ros.inventory.service.IPurchaseOrderManager;
 import com.ros.inventory.service.IWastageManager;
 import com.ros.inventory.service.stockService;
 
@@ -37,6 +41,8 @@ public class MyApplicationController {
 	private IWastageManager wastage1;
 	@Autowired
 	private IClosingValueService iclosing;
+	@Autowired
+	private IPurchaseOrderManager ipurchase;
 
 	@GetMapping("/home")
 	public String show(Model model) throws InventoryException {
@@ -161,15 +167,45 @@ public class MyApplicationController {
 		wastage1.add(wastage);
 		return "redirect:/wastage.ftl";
 	}
-
-	// Close Stock period Status
-	@GetMapping("/status/{stockID}")
-	public ResponseEntity<?> closeStatus(@PathVariable("stockID") UUID stockID) {
-		ResponseEntity<?> response;
-		response = new ResponseEntity(prod.getStatus(stockID), HttpStatus.OK);
-
-		return response;
+	
+	@GetMapping("/addpurchase")
+	public String addPurchase(Model model) {
+		
+		PurchaseOrder pr = new PurchaseOrder();
+		
+		
+		model.addAttribute("purchase",pr);
+		model.addAttribute("isUpdate", false);
+		return "addpurchase";
 	}
+	@PostMapping("/addpurchase")
+	public String createpurhase(@ModelAttribute("purchase") PurchaseOrder purchase) throws InventoryException {
+		
+		PurchaseOrder pr = new PurchaseOrder();
+		Supplier supplier = new Supplier();
+		SupplierBasicInfo sb= new SupplierBasicInfo();
+		sb.setSupplierBusinessName("Cream Cafe");
+		
+		supplier.setSupplierBasic(sb);
+		
+		pr.setPurchaseOrderDate(LocalDate.now());
+		pr.setPurchaseRejectedDate(LocalDate.now());
+		pr.setSupplier(supplier);
+		pr.setPurchaseOrderStatus(purchase.getPurchaseOrderStatus());
+		pr.setTotalAmount(purchase.getTotalAmount());
+		pr.setTransferType(purchase.getTransferType());
+		ipurchase.save(pr);
+		return "redirect:/purchase.ftl";
+	}
+//
+//	// Close Stock period Status
+//	@GetMapping("/status/{stockID}")
+//	public ResponseEntity<?> closeStatus(@PathVariable("stockID") UUID stockID) {
+//		ResponseEntity<?> response;
+//		response = new ResponseEntity(prod.getStatus(stockID), HttpStatus.OK);
+//
+//		return response;
+//	}
 
 	// End Session
 	@GetMapping("/EndSession")
@@ -179,7 +215,7 @@ public class MyApplicationController {
 		Date dNow = new Date();
 		SimpleDateFormat ft = new SimpleDateFormat("E dd.MM.yyyy 'at' hh:mm:ss a zzz");
 		LocalDate d = summary.getStock_period_start_date();
-		LocalDate startDate = summary.getStock_period_start_date();
+		LocalDate startDate = summary.getStock_period_start_date()!=null?summary.getStock_period_start_date():LocalDate.now();
 
 		model.addAttribute("Day", startDate.getDayOfWeek());
 		model.addAttribute("Date", startDate.getDayOfMonth());
@@ -192,10 +228,10 @@ public class MyApplicationController {
 	}
 
    // submit close list
-	@RequestMapping(value = "/EndSession", method = RequestMethod.POST)
+	@PostMapping("/EndSession")
 	public String addStock(@RequestBody List<ClosingValueDto> close_stock_values) throws InventoryException {
-//		iclosing.setValues(close_stock_values);
-		System.out.println("Data for closeStock "+close_stock_values);
+		iclosing.setValues(close_stock_values);
+		
 		return "redirect:/home";
 	}
 }

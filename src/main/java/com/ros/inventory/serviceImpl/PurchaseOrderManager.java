@@ -31,11 +31,11 @@ public class PurchaseOrderManager implements IPurchaseOrderManager
 	public PurchaseOrder save(PurchaseOrder purchase) throws InventoryException 
 	{
 		// TODO Auto-generated method stub
-		PurchaseOrder orderFromDB = purchaseRepo.getById(purchase.getPurchasedId());
-		if(orderFromDB!= null)
-		{
-			throw new InventoryException("order with Id already exist ");
-		}
+//		PurchaseOrder orderFromDB = purchaseRepo.getById(purchase.getPurchasedId());
+//		if(orderFromDB!= null)
+//		{
+//			throw new InventoryException("order with Id already exist ");
+//		}
 		
 		return purchaseRepo.save(purchase);
 	}

@@ -32,9 +32,7 @@ import lombok.NoArgsConstructor;
 public class PurchaseOrder implements Serializable
 {
 
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
